@@ -52,7 +52,7 @@ date2 = date.find_elements(by=By.TAG_NAME, value="option")
 wait.until(lambda d: date.is_displayed())
 select1 = Select(driver.find_element(by=By.XPATH, value="//*[@id='SD8.V12']"))
 
-
+resultstoadd = []
 count=True
 indxcount=1
 indxcount1=1
@@ -101,14 +101,7 @@ while(indxcount<len(vaccine2)):
                     for p in range(len(elements)):
                         if p%2==0:
                             events = elements[p]
-                            final = {"Date": date , "State": state3 , "Symptom": name2.text, "Occurences":events.text}
-                            try:
-                                name.insert_one(final)
-                            except:
-                                print("Database not connected")
-                            print(nameorig, "in date",date, "in state", state3, "completed")
-                            print('\n')
-
+                            resultstoadd.append({"Date": date , "State": state3 , "Symptom": name2.text, "Occurences":events.text})
                 driver.back()
             vaccine = driver.find_element(by=By.NAME, value="F_D8.V14")
             vaccine2 = vaccine.find_elements(by=By.TAG_NAME, value="option")
@@ -125,3 +118,8 @@ while(indxcount<len(vaccine2)):
             wait.until(lambda d: state.is_displayed())
             select2 = Select(driver.find_element(by=By.XPATH, value="//*[@id='SD8.V12']"))
 
+if resultstoadd:
+    try:
+        name.insert_many(resultstoadd)
+    except Exception as e:
+        print("Database error:", e)
