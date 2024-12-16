@@ -6,6 +6,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.keys import Keys
 import time
 
 
@@ -15,8 +17,9 @@ import time
 dbname = get_database()
 
 
+
 chromeoptions = Options()
-chromeoptions.add_argument("--headless")
+#chromeoptions.add_argument("--headless")
 chromeoptions.add_argument("--disable-gpu")
 chromeoptions.add_argument("--disable-dev-shm-usage")
 chromeoptions.add_argument('--no-sandbox')
@@ -28,6 +31,7 @@ wait=WebDriverWait(driver,10)
 driver.get("https://wonder.cdc.gov/vaers.html")
 
 driver.implicitly_wait(0.1)
+
 
 button1F = driver.find_element(by=By.XPATH, value="//*[@id='closeBtn']")
 wait.until(lambda d: button1F.is_displayed())
